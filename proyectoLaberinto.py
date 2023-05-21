@@ -108,6 +108,30 @@ LEVEL2 = [
 
 
 
+
+
+import numpy as np
+
+ #Replace characters with numerical values
+mapping = {'#': 1, ' ': 0, 's': 2, 'T': 3}
+LEVEL1 = [[mapping[ch] for ch in row] for row in LEVEL1]
+
+ #Convert to numpy array
+LEVEL1 = np.array(LEVEL1)
+
+print(LEVEL1)
+
+
+ #Replace characters with numerical values
+mapping2 = {'#': 1, ' ': 0, 's': 2, 'T': 3}
+LEVEL2 = [[mapping2[ch] for ch in row] for row in LEVEL2]
+
+ #Convert to numpy array
+LEVEL2 = np.array(LEVEL2)
+
+
+
+
 #Agregar el laberinto a los niveles
 
 levels.append(LEVEL1) #Agrega el nivel 1
