@@ -47,7 +47,7 @@ levels = ['']
 # Definimos el nivel del laberinto
 LEVEL1 = [
     '#########################',
-    '#s                      #',
+    '#s      T               #',
     '################ ########',
     '#                       #',
     '# # ##########  # ## ## #',
@@ -69,9 +69,7 @@ LEVEL1 = [
     '# # ######### # # # # # #',
     '# # #       # # # # # # #',
     '# # # ##### # # # # # # #',
-    '# # # #  T# # # # # # # #',
-    '# # # # ### # # # # #   #',
-    '#           # # # # #   #',
+    '#         # # # # # # # #',
     '#########################'
 ]
 
@@ -106,30 +104,32 @@ LEVEL2 = [
 ]
 #en las filas o columnas donde hay # son los muros  
 
-
-
-
-
 import numpy as np
 
- #Replace characters with numerical values
+# Replace characters with numerical values
 mapping = {'#': 1, ' ': 0, 's': 2, 'T': 3}
 LEVEL1 = [[mapping[ch] for ch in row] for row in LEVEL1]
 
- #Convert to numpy array
+
+# Convert to numpy array
 LEVEL1 = np.array(LEVEL1)
+
+
+matriz_transpuesta = np.transpose(LEVEL1)
+
+# Invertir el orden de las filas o columnas transpuestas
+matriz_rotada = np.flip(LEVEL1, axis=0)  # Invertir filas
+LEVEL1 = matriz_rotada
 
 print(LEVEL1)
 
 
- #Replace characters with numerical values
+# Replace characters with numerical values
 mapping2 = {'#': 1, ' ': 0, 's': 2, 'T': 3}
 LEVEL2 = [[mapping2[ch] for ch in row] for row in LEVEL2]
 
- #Convert to numpy array
+# Convert to numpy array
 LEVEL2 = np.array(LEVEL2)
-
-
 
 
 #Agregar el laberinto a los niveles
@@ -137,6 +137,7 @@ LEVEL2 = np.array(LEVEL2)
 levels.append(LEVEL1) #Agrega el nivel 1
 
 levels.append(LEVEL2)
+
 
 #Crea al jugador
 class PlayerSkin(turtle.Turtle):
@@ -232,7 +233,7 @@ def configMaze(anyLevel):     #el nivel es un arreglo bidimensional, es decir un
 
 
             # si el caracter es '#' imprimimos ese muro
-            if character == '#':
+            if character == 1:
                 draw.goto(screenRow, screenColumn)
                 draw.shape('muroJuego.gif')
                 draw.stamp()
@@ -240,10 +241,10 @@ def configMaze(anyLevel):     #el nivel es un arreglo bidimensional, es decir un
                 #agrega las cordenadas
                 walls.append((screenRow,screenColumn))
             
-            if character == 's':
+            if character == 2:
                 skin.goto(screenRow, screenColumn)
 
-            if character == 'T':
+            if character == 3:
                 tesoros.append(TesoroToWin(screenRow,screenColumn))
 
 
@@ -270,7 +271,7 @@ class TesoroToWin(turtle.Turtle):
                     
 
 #Configurar el nivel
-configMaze(levels[1])
+configMaze(LEVEL1)
 
 
 
@@ -297,7 +298,7 @@ while True:
             tesoro.destroy()
             tesoros.remove(tesoro)
 
-            configMaze(levels[2])
+            configMaze(LEVEL2)
 
 
     # actualizamos la pantalla cada que presionamos una flechita
