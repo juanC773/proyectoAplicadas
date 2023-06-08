@@ -3,8 +3,7 @@
 #Importaciones
 import turtle #Turtle permite crear una ventana de dibujo y controlar una tortuga virtual que puede moverse y dibujar líneas en la pantalla. La tortuga puede cambiar de dirección, cambiar de color, moverse hacia adelante y hacia atrás y mucho más. El módulo turtle también incluye funciones para configurar la apariencia de la tortuga y de las líneas que dibuja.
 import math
-import time
-import sys
+import sys 
 
 #Style
 turtle.register_shape('marioRight.gif')
@@ -18,7 +17,7 @@ turtle.register_shape('ghost.gif')
 window= turtle.Screen()
 
 #Fondo
-window.bgcolor(0,0,0) # RGB color negro (vector)
+window.bgcolor(0,0,0) # RGB color negro
 
 #Nombre de la ventana
 window.title("Bienvenido al juego!")
@@ -80,29 +79,29 @@ LEVEL1 = [
 
 LEVEL2 = [
     '#########################',
-    '######################T##',
-    '#########################',
-    '#########################',
-    '#########################',
-    '#########################',
-    '#########################',
-    '#########################',
-    '#########################',
-    '#########################',
-    '#########################',
-    '#########################',
-    '#########################',
-    '#########################',
-    '#########################',
-    '#########################',
-    '#########################',
-    '#########################',
-    '#########################',
-    '#  ######################',
-    '# ##  ###################',
-    '# # #####################',
-    '# # #####################',
-    '#s   ####################',
+    '##       ##########   T##',
+    '## #####        ### #####',
+    '## ##### ########## #####',
+    '## ##### ########## #####',
+    '##   ###            #####',
+    '####    #################',
+    '###  # ###        #######',
+    '### ## ##### ####      ##',
+    '### ## #####    ###### ##',
+    '### ########### ###### ##',
+    '###          #  ###### ##',
+    '############ ## ###### ##',
+    '###           # ###### ##',
+    '### ####### ### ###### ##',
+    '#   ####### ### ###### ##',
+    '### ####### ### ###### ##',
+    '###     ### ###        ##',
+    '### ####### ##  #### ####',
+    '#   ####### ##  #### ####',
+    '# ##      # ## ##    ####',
+    '# #  ###### ## ##### ####',
+    '# # ##### # ## ##### ####',
+    '#s                   ####',
     '#########################'
 ]
 #en las filas o columnas donde hay # son los muros  
@@ -297,29 +296,28 @@ class TesoroToWin(turtle.Turtle):
    
 
 
-#Rotar la matriz 
+#alteraciones
 
-
+#matriz transpuesta 
 LEVEL1 = np.array(LEVEL1)
 matriz_transpuesta = np.transpose(LEVEL1)
 
 
 #matriz espejo
 # Invertir el orden de las filas o columnas 
-#matriz_rotada = np.flip(matriz_transpuesta, axis=0)  
+matriz_rotada = np.flip(LEVEL1, axis=0)  
 
-#axis =1 horizontal
-#axis = 0 vertical 
+#axis =1 horizontal, es decir filas
+#axis = 0 vertical, es decir columnas
 
 
 
-#configurar niveles
-#LEVEL2=matriz_transpuesta
+
 
 
 
 # Configurar el nivel
-configMaze(LEVEL2)
+configMaze(LEVEL1)
 
 # movimiento
 turtle.listen()
