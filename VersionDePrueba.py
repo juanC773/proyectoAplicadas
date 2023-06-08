@@ -3,6 +3,7 @@
 #Importaciones
 import turtle #Turtle permite crear una ventana de dibujo y controlar una tortuga virtual que puede moverse y dibujar líneas en la pantalla. La tortuga puede cambiar de dirección, cambiar de color, moverse hacia adelante y hacia atrás y mucho más. El módulo turtle también incluye funciones para configurar la apariencia de la tortuga y de las líneas que dibuja.
 import math
+import numpy as np
 import sys 
 
 #Style
@@ -24,9 +25,6 @@ window.title("Bienvenido al juego!")
 
 #Tamaño de la ventana
 window.setup(800,800)
-
-import os
-print(os.getcwd())
 
 
 #Dibuja el tablero
@@ -106,7 +104,6 @@ LEVEL2 = [
 ]
 #en las filas o columnas donde hay # son los muros  
 
-import numpy as np
 
 # Replace characters with numerical values
 mapping = {'#': 1, ' ': 0, 's': 2, 'T': 3, 'E':4}
@@ -220,7 +217,7 @@ class EnemySkin(turtle.Turtle):
         b = player.ycor() - self.ycor()
         distance = math.sqrt((a ** 2) + (b ** 2))
 
-        if distance < 250:  # Ajusta este valor para determinar cuándo Bowser debe comenzar a seguir a Mario
+        if distance < 250:  # Ajusta este valor para determinar cuándo el enemigo debe comenzar a seguir a Mario
             angle = math.atan2(b, a)
             self.setheading(math.degrees(angle))
             self.forward(0.8)  # velocidad (recomendada en 2)
@@ -299,13 +296,13 @@ class TesoroToWin(turtle.Turtle):
 #alteraciones
 
 #matriz transpuesta 
-LEVEL1 = np.array(LEVEL1)
+LEVEL1 = np.array(LEVEL1) #optimiza el arreglo bidimensional
 matriz_transpuesta = np.transpose(LEVEL1)
 
 
 #matriz espejo
 # Invertir el orden de las filas o columnas 
-matriz_rotada = np.flip(LEVEL1, axis=0)  
+matriz_espejo = np.flip(LEVEL1, axis=1)  
 
 #axis =1 horizontal, es decir filas
 #axis = 0 vertical, es decir columnas
@@ -317,7 +314,7 @@ matriz_rotada = np.flip(LEVEL1, axis=0)
 
 
 # Configurar el nivel
-configMaze(LEVEL1)
+configMaze(matriz_transpuesta)
 
 # movimiento
 turtle.listen()
