@@ -11,8 +11,8 @@ turtle.register_shape('marioRight.gif')
 turtle.register_shape('marioLeft.gif')
 turtle.register_shape('muroJuego.gif')
 turtle.register_shape('starr.gif')
-turtle.register_shape('bowserRight.gif')
-turtle.register_shape('bowserLeftC.gif')
+turtle.register_shape('ghost.gif')
+
 
 #Visualización // ventana
 window= turtle.Screen()
@@ -51,9 +51,9 @@ levels = ['']
 # Definimos el nivel del laberinto
 LEVEL1 = [
     '#########################',
-    '#s                   E  #',
+    '#s                    E #',
     '################ ########',
-    '#       T               #',
+    '#                       #',
     '# # ##########  # ## ## #',
     '# #             # #     #',
     '# ############# # # # # #',
@@ -61,7 +61,7 @@ LEVEL1 = [
     '# # ######### # # # # # #',
     '# # #       # # # # # # #',
     '# # # ##### # # # # # # #',
-    '# # # #   # # # # # # # #',
+    '# # # #  T# # # # # # # #',
     '# # # # ### # # # # # # #',
     '# # # #     # # # # # # #',
     '# # # ##### # # # # # # #',
@@ -80,29 +80,29 @@ LEVEL1 = [
 
 LEVEL2 = [
     '#########################',
-    '#                  #   s#',
-    '# ### ######## ##    ####',
-    '# #      #      ####  ###',
-    '# # ### ####### #####   #',
-    '# #               #     #',
-    '# ############# # # # # #',
-    '# #           # # # # # #',
-    '# # ######### # # # # # #',
-    '# # #       # # # # # # #',
-    '# # # ##### # # # # # # #',
-    '# # # #  T# # # # # # # #',
-    '# # # # ### # # # # # # #',
-    '# # # #     # # # # # # #',
-    '# # # ##### # # # # # # #',
-    '# # #       # # # # # # #',
-    '# # ######### # # # # # #',
-    '# #           # # # # # #',
-    '# ############# # # # # #',
-    '# #           # # # # # #',
-    '# # ######### # # # # # #',
-    '# # #       # # # # # # #',
-    '# # # ##### # # # # # # #',
-    '# # # #   # # # # # # # #',
+    '######################T##',
+    '#########################',
+    '#########################',
+    '#########################',
+    '#########################',
+    '#########################',
+    '#########################',
+    '#########################',
+    '#########################',
+    '#########################',
+    '#########################',
+    '#########################',
+    '#########################',
+    '#########################',
+    '#########################',
+    '#########################',
+    '#########################',
+    '#########################',
+    '#  ######################',
+    '# ##  ###################',
+    '# # #####################',
+    '# # #####################',
+    '#s   ####################',
     '#########################'
 ]
 #en las filas o columnas donde hay # son los muros  
@@ -115,49 +115,8 @@ LEVEL1 = [[mapping[ch] for ch in row] for row in LEVEL1]
 
 
 
-mappingLevel2 = {'#': 1, ' ': 0, 's': 2, 'T': 3}
+mappingLevel2 = {'#': 1, ' ': 0, 's': 2, 'T': 3, 'E':4}
 LEVEL2 = [[mappingLevel2[ch] for ch in row] for row in LEVEL2]
-
-
-
-
-
-#Rotar la matriz 
-
-# Convert to numpy array
-#LEVEL1 = np.array(LEVEL1)
-#matriz_transpuesta = np.transpose(LEVEL1)
-
-# Invertir el orden de las filas o columnas transpuestas
-#matriz_rotada = np.flip(matriz_transpuesta, axis=1)  # Invertir filas
-
-
-
-#LEVEL1 = np.array(LEVEL1)
-#matriz_transpuesta = np.transpose(LEVEL1)
-
-
-
-# Crear una matriz original de tamaño 25x25
-
-
-# Transponer la matriz original
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 #Agregar el laberinto a los niveles
@@ -251,7 +210,7 @@ class PlayerSkin(turtle.Turtle):
 class EnemySkin(turtle.Turtle):
     def __init__(self):
         turtle.Turtle.__init__(self)
-        self.shape('bowserLeftC.gif')
+        self.shape('ghost.gif')
         self.color('red')
         self.penup()
         self.speed(0)
@@ -262,10 +221,10 @@ class EnemySkin(turtle.Turtle):
         b = player.ycor() - self.ycor()
         distance = math.sqrt((a ** 2) + (b ** 2))
 
-        if distance < 100:  # Ajusta este valor para determinar cuándo Bowser debe comenzar a seguir a Mario
+        if distance < 250:  # Ajusta este valor para determinar cuándo Bowser debe comenzar a seguir a Mario
             angle = math.atan2(b, a)
             self.setheading(math.degrees(angle))
-            self.forward(1)  # velocidad
+            self.forward(0.8)  # velocidad (recomendada en 2)
 
 
 
@@ -336,51 +295,68 @@ class TesoroToWin(turtle.Turtle):
         self.goto(2000, 2000)
         self.hideturtle()
    
-                    
-
-#Configurar el nivel
-configMaze(LEVEL1)
 
 
+#Rotar la matriz 
 
 
-#movimiento
+LEVEL1 = np.array(LEVEL1)
+matriz_transpuesta = np.transpose(LEVEL1)
+
+
+#matriz espejo
+# Invertir el orden de las filas o columnas 
+#matriz_rotada = np.flip(matriz_transpuesta, axis=0)  
+
+#axis =1 horizontal
+#axis = 0 vertical 
+
+
+
+#configurar niveles
+#LEVEL2=matriz_transpuesta
+
+
+
+# Configurar el nivel
+configMaze(LEVEL2)
+
+# movimiento
 turtle.listen()
 
- #presiona flechas de movimiento
-turtle.onkey(skin.up,'Up')
-turtle.onkey(skin.down,'Down')
-turtle.onkey(skin.left,'Left')
-turtle.onkey(skin.right,'Right')
+# presiona flechas de movimiento
+turtle.onkey(skin.up, 'Up')
+turtle.onkey(skin.down, 'Down')
+turtle.onkey(skin.left, 'Left')
+turtle.onkey(skin.right, 'Right')
 
-window.tracer(0) #Reduce la cantidad de veces que se actualiza la pantalla para optimizar
+window.tracer(0)  # Reduce la cantidad de veces que se actualiza la pantalla para optimizar
 
-#Ciclo del juego
+# Ciclo del juego
 while True:
-
-  
-  
-
-
-
-
     for tesoro in tesoros:
         if skin.endGame(tesoro):
-            skin.win +=tesoro.win
-            print('Level passed, score:{}'.format(skin.win))
+            skin.win += tesoro.win
+            print('Level passed, score: {}'.format(skin.win))
 
             tesoro.destroy()
             tesoros.remove(tesoro)
 
-            configMaze(LEVEL3)
-        if skin.check_collision(enemy):
+    if len(tesoros) == 0:  # Si no quedan tesoros en el nivel actual
+          print("you've won")
+          sys.exit()
+       
+
+       
+
+    if skin.check_collision(enemy):
         # Realizar acciones cuando Mario muere
-            skin.hideturtle() 
-            print("End Game")
-            sys.exit()  
+        skin.hideturtle()
+        print("End Game")
+        sys.exit()
+
     # Hacer que Bowser siga a Mario
-    enemy.follow_player(skin)    
+    enemy.follow_player(skin)
 
-
-    # actualizamos la pantalla cada que presionamos una flechita
+    # Actualizar la pantalla cada vez que presionamos una flecha
     window.update()
